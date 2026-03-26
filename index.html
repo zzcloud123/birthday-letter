@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>写给你的一封信</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+QingKe+HuangYou&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- 背景音乐 -->
+  <audio id="bgm" loop>
+    <source src="audio/bgm.mp3" type="audio/mpeg" />
+  </audio>
+  <!-- 翻页音效 -->
+  <audio id="page-turn-sfx">
+    <source src="audio/pageturn.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- 音乐控制按钮 -->
+  <button id="music-btn" class="music-btn" title="音乐开关">♪</button>
+
+  <!-- 书本容器 -->
+  <div class="book-wrapper">
+    <div class="book" id="book">
+
+      <!-- 封面 Page 0 -->
+      <div class="page active" id="page-0">
+        <div class="page-content cover">
+          <div class="cover-decoration top-left"></div>
+          <div class="cover-decoration top-right"></div>
+          <div class="cover-inner">
+            <p class="cover-sub">— 写给你的 —</p>
+            <h1 class="cover-title">一封情书</h1>
+            <p class="cover-date">2026 · 生日快乐</p>
+            <div class="cover-ribbon"></div>
+            <button class="open-btn" onclick="goNext()">轻轻翻开 →</button>
+          </div>
+          <div class="cover-decoration bottom-left"></div>
+          <div class="cover-decoration bottom-right"></div>
+        </div>
+      </div>
+
+      <!-- 第一章 Page 1 -->
+      <div class="page" id="page-1">
+        <div class="page-content spread">
+          <div class="spread-left">
+            <div class="photo-frame">
+              <img src="images/photo1.jpg" alt="我们的照片" onerror="this.parentElement.classList.add('no-photo')" />
+              <div class="photo-placeholder">📷<br/>放上你们的第一张照片</div>
+            </div>
+            <p class="photo-caption">[ 照片说明，例如：2023年初识 ]</p>
+          </div>
+          <div class="spread-right">
+            <h2 class="chapter-title">第一章</h2>
+            <h3 class="chapter-subtitle">相遇</h3>
+            <div class="letter-text">
+              <p>[在这里写下你们相遇的故事...]</p>
+              <p>[那天你穿着什么、在哪里、发生了什么...]</p>
+              <p>[你第一次见到她时的感受...]</p>
+            </div>
+          </div>
+        </div>
+        <div class="page-nav">
+          <button onclick="goPrev()">← 上一页</button>
+          <span class="page-num">1 / 4</span>
+          <button onclick="goNext()">下一页 →</button>
+        </div>
+      </div>
+
+      <!-- 第二章 Page 2 -->
+      <div class="page" id="page-2">
+        <div class="page-content spread">
+          <div class="spread-left">
+            <h2 class="chapter-title">第二章</h2>
+            <h3 class="chapter-subtitle">喜欢你的理由</h3>
+            <div class="letter-text reasons">
+              <p>① [第一个理由...]</p>
+              <p>② [第二个理由...]</p>
+              <p>③ [第三个理由...]</p>
+              <p>④ [第四个理由...]</p>
+              <p>⑤ [第五个理由...]</p>
+            </div>
+          </div>
+          <div class="spread-right">
+            <div class="photo-frame">
+              <img src="images/photo2.jpg" alt="我们的照片" onerror="this.parentElement.classList.add('no-photo')" />
+              <div class="photo-placeholder">📷<br/>放上一张你喜欢的她的照片</div>
+            </div>
+            <p class="photo-caption">[ 照片说明 ]</p>
+          </div>
+        </div>
+        <div class="page-nav">
+          <button onclick="goPrev()">← 上一页</button>
+          <span class="page-num">2 / 4</span>
+          <button onclick="goNext()">下一页 →</button>
+        </div>
+      </div>
+
+      <!-- 第三章 Page 3 -->
+      <div class="page" id="page-3">
+        <div class="page-content spread">
+          <div class="spread-left">
+            <div class="photo-frame">
+              <img src="images/photo3.jpg" alt="我们的照片" onerror="this.parentElement.classList.add('no-photo')" />
+              <div class="photo-placeholder">📷<br/>放上你们最难忘的一张照片</div>
+            </div>
+            <p class="photo-caption">[ 照片说明 ]</p>
+          </div>
+          <div class="spread-right">
+            <h2 class="chapter-title">第三章</h2>
+            <h3 class="chapter-subtitle">最难忘的那天</h3>
+            <div class="letter-text">
+              <p>[写下你们在一起最难忘的一件事...]</p>
+              <p>[那天的细节、感受、你想说的话...]</p>
+              <p>[为什么这件事对你来说很特别...]</p>
+            </div>
+          </div>
+        </div>
+        <div class="page-nav">
+          <button onclick="goPrev()">← 上一页</button>
+          <span class="page-num">3 / 4</span>
+          <button onclick="goNext()">下一页 →</button>
+        </div>
+      </div>
+
+      <!-- 生日祝福 Page 4 -->
+      <div class="page" id="page-4">
+        <div class="page-content finale">
+          <div class="finale-inner">
+            <div class="finale-deco">🌸</div>
+            <h2 class="finale-title">生日快乐</h2>
+            <p class="finale-name">[ 她的名字 ]</p>
+            <div class="finale-wish">
+              <p>[写下你最真挚的生日祝福...]</p>
+              <p>[你对未来的期望和承诺...]</p>
+            </div>
+            <p class="finale-sign">— [ 你的名字 ] 写于 2026 年</p>
+            <button class="confetti-btn" onclick="launchConfetti()">🎉 点击送上祝福</button>
+          </div>
+        </div>
+        <div class="page-nav">
+          <button onclick="goPrev()">← 上一页</button>
+          <span class="page-num">4 / 4</span>
+        </div>
+      </div>
+
+    </div><!-- /book -->
+  </div><!-- /book-wrapper -->
+
+  <!-- 彩花画布 -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
