@@ -13,13 +13,9 @@
   <audio id="bgm" loop>
     <source src="audio/bgm.mp3" type="audio/mpeg" />
   </audio>
-  <!-- 翻页音效 -->
-  <audio id="page-turn-sfx">
-    <source src="audio/pageturn.mp3" type="audio/mpeg" />
-  </audio>
 
   <!-- 音乐控制按钮 -->
-  <button id="music-btn" class="music-btn" title="音乐开关">♪</button>
+  <button id="music-btn" class="music-btn playing" title="关闭音乐">♪</button>
 
   <!-- 书本容器 -->
   <div class="book-wrapper">
@@ -28,126 +24,376 @@
       <!-- 封面 Page 0 -->
       <div class="page active" id="page-0">
         <div class="page-content cover">
-          <div class="cover-decoration top-left"></div>
-          <div class="cover-decoration top-right"></div>
+          <!-- 花藤角落装饰：左上 + 右下对角 -->
+          <img class="corner-img floral-tl h" src="corner.png" alt="">
+          <img class="corner-img floral-tl v" src="corner.png" alt="">
+          <img class="corner-img floral-br h" src="corner.png" alt="">
+          <img class="corner-img floral-br v" src="corner.png" alt="">
+
+          <!-- 散落粉色花瓣 -->
+          <svg class="cover-petals" viewBox="0 0 980 640" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <g id="petal">
+                <ellipse cx="0" cy="-7" rx="3.5" ry="7" fill="#f4a0b8" opacity="0.55"/>
+              </g>
+            </defs>
+            <g transform="translate(120,90) rotate(15)">
+              <use href="#petal" transform="rotate(0)"/><use href="#petal" transform="rotate(72)"/><use href="#petal" transform="rotate(144)"/><use href="#petal" transform="rotate(216)"/><use href="#petal" transform="rotate(288)"/>
+              <circle r="2.5" fill="#f9c8d8" opacity="0.7"/>
+            </g>
+            <g transform="translate(820,80) rotate(-20)">
+              <use href="#petal" transform="rotate(0)"/><use href="#petal" transform="rotate(72)"/><use href="#petal" transform="rotate(144)"/><use href="#petal" transform="rotate(216)"/><use href="#petal" transform="rotate(288)"/>
+              <circle r="2.5" fill="#f9c8d8" opacity="0.7"/>
+            </g>
+            <g transform="translate(200,520) rotate(30)">
+              <use href="#petal" transform="rotate(0)"/><use href="#petal" transform="rotate(72)"/><use href="#petal" transform="rotate(144)"/><use href="#petal" transform="rotate(216)"/><use href="#petal" transform="rotate(288)"/>
+              <circle r="2.5" fill="#f9c8d8" opacity="0.7"/>
+            </g>
+            <g transform="translate(760,540) rotate(-10)">
+              <use href="#petal" transform="rotate(0)"/><use href="#petal" transform="rotate(72)"/><use href="#petal" transform="rotate(144)"/><use href="#petal" transform="rotate(216)"/><use href="#petal" transform="rotate(288)"/>
+              <circle r="2.5" fill="#f9c8d8" opacity="0.7"/>
+            </g>
+            <g transform="translate(480,80) rotate(5)">
+              <use href="#petal" transform="rotate(0)"/><use href="#petal" transform="rotate(72)"/><use href="#petal" transform="rotate(144)"/><use href="#petal" transform="rotate(216)"/><use href="#petal" transform="rotate(288)"/>
+              <circle r="2.5" fill="#f9c8d8" opacity="0.7"/>
+            </g>
+            <g transform="translate(90,320) rotate(-25)">
+              <use href="#petal" transform="rotate(0)"/><use href="#petal" transform="rotate(72)"/><use href="#petal" transform="rotate(144)"/><use href="#petal" transform="rotate(216)"/><use href="#petal" transform="rotate(288)"/>
+              <circle r="2.5" fill="#f9c8d8" opacity="0.7"/>
+            </g>
+            <g transform="translate(890,310) rotate(40)">
+              <use href="#petal" transform="rotate(0)"/><use href="#petal" transform="rotate(72)"/><use href="#petal" transform="rotate(144)"/><use href="#petal" transform="rotate(216)"/><use href="#petal" transform="rotate(288)"/>
+              <circle r="2.5" fill="#f9c8d8" opacity="0.7"/>
+            </g>
+          </svg>
+
           <div class="cover-inner">
-            <p class="cover-sub">— 写给你的 —</p>
+            <p class="cover-sub">— 写给焦悦的 —</p>
             <h1 class="cover-title">一封情书</h1>
+            <div class="cover-seal-wrap">
+              <div class="cover-seal" id="heart-seal" onclick="launchHearts(this)">
+                <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="40" cy="40" r="36" fill="none" stroke="#c8403a" stroke-width="1.5" opacity="0.5" stroke-dasharray="3,4"/>
+                  <circle cx="40" cy="40" r="30" fill="none" stroke="#c8403a" stroke-width="0.8" opacity="0.35"/>
+                  <path d="M40,55 C40,55 20,42 20,30 C20,23 26,18 33,20 C36,21 39,24 40,27 C41,24 44,21 47,20 C54,18 60,23 60,30 C60,42 40,55 40,55Z" fill="#d94040" opacity="0.88"/>
+                </svg>
+              </div>
+              <div class="heart-hint">
+                <span class="heart-hint-text">点我有惊喜</span>
+              </div>
+            </div>
             <p class="cover-date">2026 · 生日快乐</p>
             <div class="cover-ribbon"></div>
             <button class="open-btn" onclick="goNext()">轻轻翻开 →</button>
           </div>
-          <div class="cover-decoration bottom-left"></div>
-          <div class="cover-decoration bottom-right"></div>
         </div>
       </div>
 
-      <!-- 第一章 Page 1 -->
+      <!-- 第一页 Page 1：初见 -->
       <div class="page" id="page-1">
-        <div class="page-content spread">
-          <div class="spread-left">
-            <div class="photo-frame">
-              <img src="images/photo1.jpg" alt="我们的照片" onerror="this.parentElement.classList.add('no-photo')" />
-              <div class="photo-placeholder">📷<br/>放上你们的第一张照片</div>
-            </div>
-            <p class="photo-caption">[ 照片说明，例如：2023年初识 ]</p>
+        <svg class="page-floral page-floral-tr" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#c8956c" stroke-width="1" fill="none" opacity="0.35">
+            <path d="M5,85 Q30,50 85,5"/>
+            <path d="M5,85 Q20,60 18,35 Q16,15 35,5"/>
+            <circle cx="86" cy="4" r="3" fill="#e8b89a" stroke="none" opacity="0.6"/>
+            <circle cx="35" cy="4" r="2.5" fill="#f0c4a0" stroke="none" opacity="0.5"/>
+          </g>
+        </svg>
+        <div class="page-content">
+          <div class="layout-text-center">
+            <p class="page-label">第一页 · 初见倾心</p>
+            <p class="page-quote">在西柏坡活动，第一眼看见你，就已经被你迷住了</p>
           </div>
-          <div class="spread-right">
-            <h2 class="chapter-title">第一章</h2>
-            <h3 class="chapter-subtitle">相遇</h3>
-            <div class="letter-text">
-              <p>[在这里写下你们相遇的故事...]</p>
-              <p>[那天你穿着什么、在哪里、发生了什么...]</p>
-              <p>[你第一次见到她时的感受...]</p>
-            </div>
+          <div class="photo-row two-col">
+            <figure class="photo-card rotate-left">
+              <img src="images/1.jpg" alt="初见" onclick="zoomPhoto(this)" />
+              <figcaption>西柏坡活动 · 初见</figcaption>
+            </figure>
+            <figure class="photo-card rotate-right">
+              <img src="images/2.jpg" alt="第一次合照" onclick="zoomPhoto(this)" />
+              <figcaption>我们第一次合照~</figcaption>
+            </figure>
           </div>
         </div>
         <div class="page-nav">
           <button onclick="goPrev()">← 上一页</button>
-          <span class="page-num">1 / 4</span>
+          <span class="page-num">1 / 9</span>
           <button onclick="goNext()">下一页 →</button>
         </div>
       </div>
 
-      <!-- 第二章 Page 2 -->
+      <!-- 第二页 Page 2：相识 -->
       <div class="page" id="page-2">
-        <div class="page-content spread">
-          <div class="spread-left">
-            <h2 class="chapter-title">第二章</h2>
-            <h3 class="chapter-subtitle">喜欢你的理由</h3>
-            <div class="letter-text reasons">
-              <p>① [第一个理由...]</p>
-              <p>② [第二个理由...]</p>
-              <p>③ [第三个理由...]</p>
-              <p>④ [第四个理由...]</p>
-              <p>⑤ [第五个理由...]</p>
-            </div>
+        <div class="page-content">
+          <p class="page-label">第二页 · 早睡协议</p>
+          <div class="p2-text-center">
+            <p>之后因为一个「早睡协议」，我们慢慢熟悉</p>
+            <p>你叫我<em>宿管小张</em>，我叫你<em>失眠小猪</em></p>
           </div>
-          <div class="spread-right">
-            <div class="photo-frame">
-              <img src="images/photo2.jpg" alt="我们的照片" onerror="this.parentElement.classList.add('no-photo')" />
-              <div class="photo-placeholder">📷<br/>放上一张你喜欢的她的照片</div>
-            </div>
-            <p class="photo-caption">[ 照片说明 ]</p>
+          <div class="p2-photos">
+            <figure class="photo-card p2-photo-left">
+              <img src="images/4.jpg" alt="下雨天约会" onclick="zoomPhoto(this)" />
+              <figcaption>下雨天，我们的第一次「约会」都这么富有诗意</figcaption>
+            </figure>
+            <figure class="photo-card p2-photo-right">
+              <img src="images/5.jpg" alt="环球影城" onclick="zoomPhoto(this)" />
+              <figcaption>第一次一起出去玩——环球影城，唯一的一张合照</figcaption>
+            </figure>
           </div>
         </div>
         <div class="page-nav">
           <button onclick="goPrev()">← 上一页</button>
-          <span class="page-num">2 / 4</span>
+          <span class="page-num">2 / 9</span>
           <button onclick="goNext()">下一页 →</button>
         </div>
       </div>
 
-      <!-- 第三章 Page 3 -->
+      <!-- 第三页 Page 3：阿纳亚 -->
       <div class="page" id="page-3">
-        <div class="page-content spread">
-          <div class="spread-left">
-            <div class="photo-frame">
-              <img src="images/photo3.jpg" alt="我们的照片" onerror="this.parentElement.classList.add('no-photo')" />
-              <div class="photo-placeholder">📷<br/>放上你们最难忘的一张照片</div>
-            </div>
-            <p class="photo-caption">[ 照片说明 ]</p>
+        <svg class="page-floral page-floral-tl" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#c8956c" stroke-width="1" fill="none" opacity="0.3">
+            <path d="M85,85 Q60,50 5,5"/>
+            <path d="M85,85 Q70,60 72,35 Q74,15 55,5"/>
+            <circle cx="4" cy="4" r="3" fill="#e8b89a" stroke="none" opacity="0.6"/>
+          </g>
+        </svg>
+        <div class="page-content">
+          <p class="page-label">第三页 · 阿纳亚的光</p>
+          <div class="layout-mosaic-4">
+            <figure class="photo-card" style="grid-area: a;">
+              <img src="images/6.1.jpg" alt="阿纳亚" onclick="zoomPhoto(this)" />
+            </figure>
+            <figure class="photo-card" style="grid-area: b;">
+              <img src="images/6.2.jpg" alt="阿纳亚" onclick="zoomPhoto(this)" />
+            </figure>
+            <figure class="photo-card" style="grid-area: c;">
+              <img src="images/6.3.jpg" alt="阿纳亚" onclick="zoomPhoto(this)" />
+            </figure>
+            <figure class="photo-card" style="grid-area: d;">
+              <img src="images/6.4.jpg" alt="阿纳亚" onclick="zoomPhoto(this)" />
+            </figure>
           </div>
-          <div class="spread-right">
-            <h2 class="chapter-title">第三章</h2>
-            <h3 class="chapter-subtitle">最难忘的那天</h3>
-            <div class="letter-text">
-              <p>[写下你们在一起最难忘的一件事...]</p>
-              <p>[那天的细节、感受、你想说的话...]</p>
-              <p>[为什么这件事对你来说很特别...]</p>
+          <p class="page-quote anaya-caption">和阿靓学了摄影，在阿纳亚给你拍了很多好看的照片</p>
+          <div class="anaya-hero-row">
+            <figure class="photo-card hero-photo-center">
+              <img src="images/7.jpg" alt="噜噜公主" onclick="zoomPhoto(this)" />
+            </figure>
+            <p class="anaya-hero-caption">就是这张照片，奠定了<br>你「噜噜公主」的身份</p>
+          </div>
+        </div>
+        <div class="page-nav">
+          <button onclick="goPrev()">← 上一页</button>
+          <span class="page-num">3 / 9</span>
+          <button onclick="goNext()">下一页 →</button>
+        </div>
+      </div>
+
+      <!-- 第四页 Page 4：噜噜公主 -->
+      <div class="page" id="page-4">
+        <div class="page-content">
+          <p class="page-label">第四页 · 我的噜噜公主</p>
+          <div class="layout-two-hero">
+            <figure class="photo-card hero-large">
+              <img src="images/8.1.jpg" alt="噜噜" onclick="zoomPhoto(this)" />
+            </figure>
+            <figure class="photo-card hero-large rotate-left">
+              <img src="images/8.2.jpg" alt="噜噜" onclick="zoomPhoto(this)" />
+            </figure>
+          </div>
+          <p class="page-quote center-quote">我的噜噜公主</p>
+        </div>
+        <div class="page-nav">
+          <button onclick="goPrev()">← 上一页</button>
+          <span class="page-num">4 / 9</span>
+          <button onclick="goNext()">下一页 →</button>
+        </div>
+      </div>
+
+      <!-- 第五页 Page 5：重庆之旅 -->
+      <div class="page" id="page-5">
+        <svg class="page-floral page-floral-tr" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#c8956c" stroke-width="1" fill="none" opacity="0.3">
+            <path d="M5,85 Q30,50 85,5"/>
+            <circle cx="86" cy="4" r="3" fill="#e8b89a" stroke="none" opacity="0.6"/>
+          </g>
+        </svg>
+        <div class="page-content">
+          <p class="page-label">第五页 · 重庆之旅</p>
+          <p class="page-quote small">重庆之旅，留下了很多美好回忆</p>
+          <div class="layout-heart-7">
+            <!-- 桃心轮廓辅助线 SVG -->
+            <svg class="heart-guide" viewBox="0 0 400 360" xmlns="http://www.w3.org/2000/svg">
+              <path d="M200,310 C200,310 30,200 30,110 C30,60 70,30 110,30 C145,30 175,50 200,80 C225,50 255,30 290,30 C330,30 370,60 370,110 C370,200 200,310 200,310 Z"
+                fill="none" stroke="rgba(200,149,108,0.22)" stroke-width="2" stroke-dasharray="8,6"/>
+              <path d="M200,290 C200,290 50,185 50,105 C50,62 85,45 115,45 C148,45 175,62 200,90 C225,62 252,45 285,45 C315,45 350,62 350,105 C350,185 200,290 200,290 Z"
+                fill="none" stroke="rgba(200,149,108,0.12)" stroke-width="1.2" stroke-dasharray="5,7"/>
+            </svg>
+            <!-- 桃心6个位置 + 中间9.3 -->
+            <!-- 左上 -->
+            <figure class="photo-card heart-p1"><img src="images/9.1.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+            <!-- 右上 -->
+            <figure class="photo-card heart-p2"><img src="images/9.2.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+            <!-- 中间主角 9.3 -->
+            <figure class="photo-card heart-p-center"><img src="images/9.3.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+            <!-- 左中 -->
+            <figure class="photo-card heart-p3"><img src="images/9.4.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+            <!-- 右中 -->
+            <figure class="photo-card heart-p4"><img src="images/9.5.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+            <!-- 左下 -->
+            <figure class="photo-card heart-p5"><img src="images/9.6.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+            <!-- 右下 -->
+            <figure class="photo-card heart-p6"><img src="images/9.7.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+          </div>
+        </div>
+        <div class="page-nav">
+          <button onclick="goPrev()">← 上一页</button>
+          <span class="page-num">5 / 9</span>
+          <button onclick="goNext()">下一页 →</button>
+        </div>
+      </div>
+
+      <!-- 第六页 Page 6：(无文字说明) -->
+      <div class="page" id="page-6">
+        <div class="page-content">
+          <p class="page-label">第六页 · 三亚之行</p>
+          <div class="layout-mosaic-4-alt">
+            <figure class="photo-card"><img src="images/10.1.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+            <figure class="photo-card"><img src="images/10.2.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+            <figure class="photo-card"><img src="images/10.3.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+            <figure class="photo-card"><img src="images/10.4.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+          </div>
+          <p class="page-quote small sanya-caption">三亚，我们第一个"家"</p>
+        </div>
+        <div class="page-nav">
+          <button onclick="goPrev()">← 上一页</button>
+          <span class="page-num">6 / 9</span>
+          <button onclick="goNext()">下一页 →</button>
+        </div>
+      </div>
+
+      <!-- 第七页 Page 7：义乌 + 臭美 -->
+      <div class="page" id="page-7">
+        <div class="page-content">
+          <p class="page-label">第七页 · 义乌旅程</p>
+          <div class="layout-spread">
+            <div class="spread-col">
+              <figure class="photo-card rotate-left hero-medium">
+                <img src="images/11.1.jpg" alt="义乌" onclick="zoomPhoto(this)" />
+                <figcaption>和噜噜去义乌啦</figcaption>
+              </figure>
+            </div>
+            <div class="spread-col">
+              <figure class="photo-card rotate-right">
+                <img src="images/12.1.jpg" alt="臭美" onclick="zoomPhoto(this)" />
+              </figure>
+              <figure class="photo-card slight-tilt">
+                <img src="images/12.2.jpg" alt="臭美" onclick="zoomPhoto(this)" />
+              </figure>
+              <p class="photo-side-caption">臭美的噜噜</p>
             </div>
           </div>
         </div>
         <div class="page-nav">
           <button onclick="goPrev()">← 上一页</button>
-          <span class="page-num">3 / 4</span>
+          <span class="page-num">7 / 9</span>
           <button onclick="goNext()">下一页 →</button>
         </div>
       </div>
 
-      <!-- 生日祝福 Page 4 -->
-      <div class="page" id="page-4">
+      <!-- 第八页 Page 8：什刹海滑冰 -->
+      <div class="page" id="page-8">
+        <svg class="page-floral page-floral-tl" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#c8956c" stroke-width="1" fill="none" opacity="0.28">
+            <path d="M85,85 Q60,50 5,5"/>
+            <circle cx="4" cy="4" r="3" fill="#e8b89a" stroke="none" opacity="0.55"/>
+          </g>
+        </svg>
+        <div class="page-content">
+          <p class="page-label">第八页 · 什刹海初冰</p>
+          <p class="page-quote small">你说你没滑过冰，爸爸带你第一次去什刹海，那天噜噜笑得很开心</p>
+          <div class="layout-wave-double">
+            <!-- 上波浪辅助线 -->
+            <svg class="wave-guide-top" viewBox="0 0 800 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0,50 C130,10 260,90 400,40 C540,0 670,70 800,30" stroke="rgba(200,149,108,0.22)" stroke-width="1.5" fill="none" stroke-dasharray="7,5"/>
+              <path d="M0,65 C130,25 260,105 400,55 C540,15 670,85 800,45" stroke="rgba(200,149,108,0.10)" stroke-width="1" fill="none" stroke-dasharray="4,7"/>
+            </svg>
+            <!-- 下波浪辅助线 -->
+            <svg class="wave-guide-bottom" viewBox="0 0 800 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0,30 C130,70 260,10 400,60 C540,100 670,30 800,70" stroke="rgba(200,149,108,0.22)" stroke-width="1.5" fill="none" stroke-dasharray="7,5"/>
+              <path d="M0,15 C130,55 260,-5 400,45 C540,85 670,15 800,55" stroke="rgba(200,149,108,0.10)" stroke-width="1" fill="none" stroke-dasharray="4,7"/>
+            </svg>
+            <!-- 上排4张，跟随上波浪 -->
+            <div class="wave-row wave-row-top">
+              <figure class="photo-card wt1"><img src="images/13.1.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+              <figure class="photo-card wt2"><img src="images/13.2.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+              <figure class="photo-card wt3"><img src="images/13.3.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+              <figure class="photo-card wt4"><img src="images/13.4.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+            </div>
+            <!-- 下排3张，跟随下波浪 -->
+            <div class="wave-row wave-row-bottom">
+              <figure class="photo-card wb1"><img src="images/13.5.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+              <figure class="photo-card wb2"><img src="images/13.6.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+              <figure class="photo-card wb3"><img src="images/13.7.jpg" alt="" onclick="zoomPhoto(this)"/></figure>
+            </div>
+          </div>
+        </div>
+        <div class="page-nav">
+          <button onclick="goPrev()">← 上一页</button>
+          <span class="page-num">8 / 9</span>
+          <button onclick="goNext()">下一页 →</button>
+        </div>
+      </div>
+
+      <!-- 第九页 Page 9：结语 -->
+      <div class="page" id="page-9">
+        <svg class="page-floral page-floral-tl" viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#c8956c" stroke-width="1.1" fill="none" opacity="0.4">
+            <path d="M8,102 Q25,65 55,45 Q78,30 102,8"/>
+            <path d="M8,102 Q28,82 22,52 Q18,30 38,12"/>
+            <circle cx="59" cy="8" r="4" fill="#e8b89a" stroke="none" opacity="0.65"/>
+            <circle cx="38" cy="11" r="3" fill="#f5c9a8" stroke="none" opacity="0.6"/>
+          </g>
+        </svg>
+        <svg class="page-floral page-floral-br" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#c8956c" stroke-width="1" fill="none" opacity="0.3" transform="rotate(180,45,45)">
+            <path d="M5,85 Q30,50 85,5"/>
+            <circle cx="86" cy="4" r="3" fill="#e8b89a" stroke="none" opacity="0.55"/>
+          </g>
+        </svg>
         <div class="page-content finale">
           <div class="finale-inner">
             <div class="finale-deco">🌸</div>
             <h2 class="finale-title">生日快乐</h2>
-            <p class="finale-name">[ 她的名字 ]</p>
+            <p class="finale-name">噜噜</p>
+
+            <figure class="photo-card finale-photo">
+              <img src="images/16.jpg" alt="我们" onclick="zoomPhoto(this)" />
+            </figure>
+
             <div class="finale-wish">
-              <p>[写下你最真挚的生日祝福...]</p>
-              <p>[你对未来的期望和承诺...]</p>
+              <p>一路上有争吵，有分歧，但是彼此都没有放手</p>
+              <p>因为———<em>解释不通的，一律归为噜子纠缠</em></p>
+              <p>我们的故事仍在继续……</p>
             </div>
-            <p class="finale-sign">— [ 你的名字 ] 写于 2026 年</p>
+            <p class="finale-sign">— 噜噜大王 写于 2026 年</p>
             <button class="confetti-btn" onclick="launchConfetti()">🎉 点击送上祝福</button>
           </div>
         </div>
         <div class="page-nav">
           <button onclick="goPrev()">← 上一页</button>
-          <span class="page-num">4 / 4</span>
+          <span class="page-num">9 / 9</span>
         </div>
       </div>
 
     </div><!-- /book -->
   </div><!-- /book-wrapper -->
+
+  <!-- 图片放大遮罩 -->
+  <div id="photo-overlay" class="photo-overlay" onclick="closeZoom()">
+    <div class="zoom-wrapper">
+      <img id="zoom-img" src="" alt="" />
+    </div>
+  </div>
 
   <!-- 彩花画布 -->
   <canvas id="confetti-canvas"></canvas>
