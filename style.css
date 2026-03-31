@@ -300,6 +300,33 @@ body {
 .cover-date { font-size: 16px; color: #b8866a; letter-spacing: 4px; margin-bottom: 32px; }
 .cover-ribbon { width: 80px; height: 2px; background: linear-gradient(90deg, transparent, #c8956c, transparent); margin: 0 auto 36px; }
 
+/* 锁定状态桃心 */
+.cover-seal-locked {
+  pointer-events: none;
+  opacity: 0.55;
+  filter: grayscale(0.3);
+}
+
+/* 隐藏状态的"点我有惊喜"提示 */
+.heart-hint-hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* 猜错了提示浮现文字 */
+.wrong-tip {
+  font-family: 'Ma Shan Zheng', cursive;
+  font-size: 14px;
+  color: #c8403a;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  margin-bottom: 8px;
+  text-align: center;
+  pointer-events: none;
+  letter-spacing: 2px;
+}
+.wrong-tip.show { opacity: 1; }
+
 .open-btn {
   background: none;
   border: 1.5px solid #c8956c;
@@ -1132,6 +1159,7 @@ body {
   border-radius: 6px;
   border: 3px solid rgba(200,149,108,0.6);
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  transition: transform 0.12s ease;
   display: block;
 }
 

@@ -1,3 +1,32 @@
+// ============ 谜题状态 ============
+let puzzleSolved   = false; // 星空动画结束后置 true，之后封面按钮直接翻页
+let puzzleHintShown = false; // 是否已显示过"猜错了"提示
+
+function handleOpenBtn() {
+  if (current !== 0) { goNext(); return; } // 不在封面，直接翻页
+  if (puzzleSolved) { goNext(); return; }  // 已完成谜题，直接翻页
+  if (!puzzleHintShown) {
+    showWrongHint();
+  }
+}
+
+function showWrongHint() {
+  puzzleHintShown = true;
+  const tip = document.getElementById('wrong-tip');
+  tip.classList.add('show');
+  setTimeout(() => {
+    tip.classList.remove('show');
+    setTimeout(unlockHeart, 600);
+  }, 2200);
+}
+
+function unlockHeart() {
+  const hint = document.querySelector('.heart-hint');
+  hint.classList.remove('heart-hint-hidden');
+  const seal = document.getElementById('heart-seal');
+  seal.classList.remove('cover-seal-locked');
+}
+
 // ============ 页面管理 ============
 const pages = document.querySelectorAll('.page');
 let current = 0;
@@ -81,17 +110,27 @@ musicBtn.addEventListener('click', (e) => {
 // ============ 图片放大功能 ============
 const overlay  = document.getElementById('photo-overlay');
 const zoomImg  = document.getElementById('zoom-img');
+let zoomScale  = 1;
 
 function zoomPhoto(img) {
   zoomImg.src = img.src;
+  zoomScale = 1;
+  zoomImg.style.transform = 'scale(1)';
   overlay.classList.add('active');
 }
 
 function closeZoom() {
   overlay.classList.remove('active');
-  // 等动画结束再清空 src，避免闪烁
-  setTimeout(() => { zoomImg.src = ''; }, 300);
+  setTimeout(() => { zoomImg.src = ''; zoomScale = 1; zoomImg.style.transform = 'scale(1)'; }, 300);
 }
+
+overlay.addEventListener('wheel', (e) => {
+  if (!overlay.classList.contains('active')) return;
+  e.preventDefault();
+  zoomScale += e.deltaY < 0 ? 0.15 : -0.15;
+  zoomScale = Math.min(Math.max(zoomScale, 0.3), 5);
+  zoomImg.style.transform = `scale(${zoomScale})`;
+}, { passive: false });
 
 // ============ 彩花动效 ============
 const canvas = document.getElementById('confetti-canvas');
@@ -761,6 +800,7 @@ showPage(0);
         cancelAnimationFrame(sfAnimId);
         sctx.clearRect(0, 0, w, h);
         sfRunning = false;
+        puzzleSolved = true; // 谜题完成，封面按钮可翻页
         return;
       }
 

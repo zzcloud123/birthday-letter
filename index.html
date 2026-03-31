@@ -82,20 +82,21 @@
             <p class="cover-sub">— 写给焦悦的 —</p>
             <h1 class="cover-title">一封情书</h1>
             <div class="cover-seal-wrap">
-              <div class="cover-seal" id="heart-seal" onclick="launchHearts(this)">
+              <div class="cover-seal cover-seal-locked" id="heart-seal" onclick="launchHearts(this)">
                 <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
                   <circle cx="40" cy="40" r="36" fill="none" stroke="#c8403a" stroke-width="1.5" opacity="0.5" stroke-dasharray="3,4"/>
                   <circle cx="40" cy="40" r="30" fill="none" stroke="#c8403a" stroke-width="0.8" opacity="0.35"/>
                   <path d="M40,55 C40,55 20,42 20,30 C20,23 26,18 33,20 C36,21 39,24 40,27 C41,24 44,21 47,20 C54,18 60,23 60,30 C60,42 40,55 40,55Z" fill="#d94040" opacity="0.88"/>
                 </svg>
               </div>
-              <div class="heart-hint">
+              <div class="heart-hint heart-hint-hidden">
                 <span class="heart-hint-text">点我有惊喜</span>
               </div>
             </div>
             <p class="cover-date">2026 · 生日快乐</p>
             <div class="cover-ribbon"></div>
-            <button class="open-btn" onclick="goNext()">轻轻翻开 →</button>
+            <div id="wrong-tip" class="wrong-tip">猜错了，点其他位置试试</div>
+            <button class="open-btn" onclick="handleOpenBtn()">轻轻翻开 →</button>
           </div>
         </div>
       </div>
